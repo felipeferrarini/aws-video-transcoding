@@ -12,7 +12,6 @@ export const transcode = async (
 ): Promise<void> => {
   return new Promise(async (resolve, reject) => {
     ffmpeg(originStream)
-      .toFormat("mp4")
       .withOutputOption("-f mp4")
       .withOutputOption("-preset superfast")
       .withOutputOption("-movflags frag_keyframe+empty_moov")

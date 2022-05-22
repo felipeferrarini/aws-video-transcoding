@@ -1,4 +1,4 @@
-import { Handler } from "aws-lambda";
+import { S3Handler } from "aws-lambda";
 import AWS from "aws-sdk";
 import { File, Resolution } from "../common/types";
 
@@ -12,7 +12,7 @@ const resolutions: Resolution[] = [
   { suffix: "360", size: "620x360" },
 ];
 
-export const handler: Handler = async (event, _context) => {
+export const handler: S3Handler = async (event, _context) => {
   console.log("Received event:", JSON.stringify(event, null, 2));
 
   // Get the object from the event and show its content type
@@ -34,6 +34,7 @@ export const handler: Handler = async (event, _context) => {
             file,
             resolution,
           }),
+          MessageGroupId: "transcode",
         })
         .promise()
     )

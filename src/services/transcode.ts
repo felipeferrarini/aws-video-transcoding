@@ -32,6 +32,7 @@ export const transcode = async (
     };
 
     ffmpeg(originStream)
+      .toFormat("mp4")
       .withOutputOption("-f mp4")
       .withOutputOption("-preset superfast")
       .withOutputOption("-movflags frag_keyframe+empty_moov")

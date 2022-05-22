@@ -4,7 +4,6 @@ import { File, Resolution } from "../common/types";
 
 const sqs = new AWS.SQS({
   apiVersion: "latest",
-  region: process.env.AWS_REGION,
 });
 
 const resolutions: Resolution[] = [

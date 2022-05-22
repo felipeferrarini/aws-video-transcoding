@@ -1,12 +1,13 @@
-import { Handler } from "aws-lambda";
+import { SQSHandler } from "aws-lambda";
+import { SqsPayload } from "../common/types";
+import { transcode } from "../services";
 
-export const handler: Handler = async (event, _context) => {
-  console.log(event);
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: "Go Serverless v1.0! Your function executed successfully!",
-      input: event,
-    }),
-  };
+export const handler: SQSHandler = async (event, _context) => {
+  for (const message of event.Records) {
+    const { file, resolution }: SqsPayload = JSON.parse(message.body);
+
+    console.log(`✉️ [Worker] Message: [${resolution.suffix}] ${file.name}`);
+
+    await transcode(file, resolution);
+  }
 };

@@ -10,8 +10,13 @@ provider:
 constructs:
   jobs:
     type: queue
+    maxRetries: 3
+    fifo: true
+    batchSize: 1
     worker:
       handler: src/functions/worker.handler
+      environment:
+        S3_BUCKET_DESTINATION: ${file(config.json):S3_BUCKET_DESTINATION}
 
 functions:
   publisher:

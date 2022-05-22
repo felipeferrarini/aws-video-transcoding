@@ -1,0 +1,31 @@
+service: video-transcoding
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
+  profile: serverlessUser
+  stage: ${opt:stage, 'dev'}
+
+constructs:
+  jobs:
+    type: queue
+    worker:
+      handler: src/functions/worker.handler
+
+functions:
+  publisher:
+    handler: src/functions/publisher.handler
+    environment:
+      QUEUE_URL: ${construct:jobs.queueUrl}
+    events:
+      - s3:
+          bucket: input
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .mp4
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-lift

@@ -4,7 +4,8 @@
   "description": "Transcode AWS S3  video files with Node.js and FFmpeg",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "local": "serverless offline --httpPort 3001",
+    "deploy": "serverless deploy --stage prod"
   },
   "author": "",
   "license": "ISC",

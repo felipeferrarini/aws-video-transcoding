@@ -13,7 +13,7 @@ const resolutions: Resolution[] = [
 ];
 
 export const handler: S3Handler = async (event, _context) => {
-  console.log("Received event:", JSON.stringify(event, null, 2));
+  console.log("[Publisher] Received event:", JSON.stringify(event, null, 2));
 
   // Get the object from the event and show its content type
   const bucket = event.Records[0].s3.bucket.name;
@@ -26,8 +26,12 @@ export const handler: S3Handler = async (event, _context) => {
 
   // Send a message into SQS
   await Promise.all(
-    resolutions.map((resolution) =>
-      sqs
+    resolutions.map((resolution) => {
+      console.log(
+        `[Publisher] publishing to sqs: [${resolution.size}] ${fileName}`
+      );
+
+      return sqs
         .sendMessage({
           QueueUrl: process.env.QUEUE_URL || "",
           MessageBody: JSON.stringify({
@@ -36,7 +40,7 @@ export const handler: S3Handler = async (event, _context) => {
           }),
           MessageGroupId: "transcode",
         })
-        .promise()
-    )
+        .promise();
+    })
   );
 };

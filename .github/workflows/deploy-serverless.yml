@@ -1,4 +1,4 @@
-name: Deploy API Serverless
+name: Deploy Serverless Functions
 on:
   push:
     branch: [master]

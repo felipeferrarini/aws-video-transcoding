@@ -18,6 +18,11 @@ constructs:
       environment:
         S3_BUCKET_DESTINATION: ${file(config.json):S3_BUCKET_DESTINATION}
 
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
+  - serverless-lift
+
 functions:
   publisher:
     handler: src/functions/publisher.handler
@@ -30,8 +35,3 @@ functions:
           event: s3:ObjectCreated:*
           rules:
             - suffix: .mp4
-
-plugins:
-  - serverless-plugin-typescript
-  - serverless-offline
-  - serverless-lift

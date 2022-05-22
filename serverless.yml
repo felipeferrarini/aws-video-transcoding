@@ -3,9 +3,11 @@ service: video-transcoding
 provider:
   name: aws
   runtime: nodejs14.x
-  region: ${file(config.json):REGION}
   profile: serverlessUser
   stage: ${file(config.json):STAGE}
+  region: ${file(config.json):REGION}
+  environment:
+    AWS_REGION: ${file(config.json):REGION}
 
 constructs:
   jobs:
@@ -28,7 +30,6 @@ functions:
     handler: src/functions/publisher.handler
     environment:
       QUEUE_URL: ${construct:jobs.queueUrl}
-      AWS_REGION: ${provider:region}
     events:
       - s3:
           bucket: ${file(config.json):S3_BUCKET}

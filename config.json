@@ -1,6 +1,6 @@
 {
   "REGION": "us-east-1",
   "STAGE": "dev",
-  "S3_BUCKET": "input",
-  "S3_BUCKET_DESTINATION": "output"
+  "S3_BUCKET": "video-input",
+  "S3_BUCKET_DESTINATION": "video-output"
 }

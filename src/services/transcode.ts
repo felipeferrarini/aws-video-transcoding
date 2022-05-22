@@ -1,36 +1,16 @@
 import ffmpegInstaller from "@ffmpeg-installer/ffmpeg";
-import { S3 } from "aws-sdk";
 import ffmpeg from "fluent-ffmpeg";
-import { File, Resolution } from "../common/types";
-import { uploadFromStream } from "../common/utils";
+import { Readable, Writable } from "stream";
+import { Resolution } from "../common/types";
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 export const transcode = async (
-  { bucket, name }: File,
-  resolution: Resolution
+  resolution: Resolution,
+  originStream: Readable,
+  destinationStream: Writable
 ): Promise<void> => {
   return new Promise(async (resolve, reject) => {
-    const s3 = new S3({ apiVersion: "2006-03-01" });
-
-    const originStream = s3
-      .getObject({
-        Bucket: bucket,
-        Key: name,
-      })
-      .createReadStream();
-
-    const destinationFile = name.replace(".mp4", `_${resolution.suffix}.mp4`);
-
-    const destinationStreamParams = {
-      Bucket: process.env.S3_BUCKET_DESTINATION || "",
-      Key: destinationFile,
-      Metadata: {
-        contentType: "video/mp4",
-      },
-      ContentType: "video/mp4",
-    };
-
     ffmpeg(originStream)
       .toFormat("mp4")
       .withOutputOption("-f mp4")
@@ -55,6 +35,6 @@ export const transcode = async (
 
         reject();
       })
-      .pipe(uploadFromStream(s3, destinationStreamParams), { end: true });
+      .pipe(destinationStream, { end: true });
   });
 };

@@ -2,5 +2,5 @@
   "REGION": "us-east-1",
   "STAGE": "dev",
   "S3_BUCKET": "studdyhub-video-input",
-  "S3_BUCKET_DESTINATION": "studdyhub-video-input"
+  "S3_BUCKET_DESTINATION": "studdyhub-video-output"
 }

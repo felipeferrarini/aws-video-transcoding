@@ -17,7 +17,7 @@ export const handler: SQSHandler = async (event, _context) => {
       Key: file.name,
     });
     const destinationFile = file.name.replace(
-      ".mp4",
+      ".mkv",
       `_${resolution.suffix}.mp4`
     );
 

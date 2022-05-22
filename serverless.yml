@@ -41,4 +41,4 @@ functions:
           bucket: ${file(config.json):S3_BUCKET}
           event: s3:ObjectCreated:*
           rules:
-            - suffix: .mp4
+            - suffix: .mkv

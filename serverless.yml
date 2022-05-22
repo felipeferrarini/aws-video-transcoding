@@ -6,6 +6,14 @@ provider:
   profile: serverlessUser
   stage: ${file(config.json):STAGE}
   region: ${file(config.json):REGION}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - s3:*Bucket
+        - s3:*Object
+      Resource:
+        - "arn:aws:s3:::${file(config.json):S3_BUCKET}/*"
+        - "arn:aws:s3:::${file(config.json):S3_BUCKET_DESTINATION}/*"
 
 constructs:
   jobs:

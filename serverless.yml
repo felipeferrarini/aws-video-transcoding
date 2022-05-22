@@ -3,9 +3,9 @@ service: video-transcoding
 provider:
   name: aws
   runtime: nodejs14.x
-  region: us-east-1
   profile: serverlessUser
-  stage: ${opt:stage, 'dev'}
+  stage: ${file(config.json):STAGE}
+  region: ${file(config.json):REGION}
 
 constructs:
   jobs:
@@ -18,9 +18,10 @@ functions:
     handler: src/functions/publisher.handler
     environment:
       QUEUE_URL: ${construct:jobs.queueUrl}
+      AWS_REGION: ${provider:region}
     events:
       - s3:
-          bucket: input
+          bucket: ${file(config.json):S3_BUCKET}
           event: s3:ObjectCreated:*
           rules:
             - suffix: .mp4

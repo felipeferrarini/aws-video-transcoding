@@ -18,7 +18,7 @@ provider:
 constructs:
   jobs:
     type: queue
-    maxRetries: 3
+    maxRetries: 2
     fifo: true
     batchSize: 1
     worker:

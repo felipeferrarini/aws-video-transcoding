@@ -10,7 +10,7 @@ export const transcode = async (
   originStream: Readable,
   destinationStream: Writable
 ): Promise<void> => {
-  return new Promise(async (resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     ffmpeg(originStream)
       .withOutputOption("-f mp4")
       .withOutputOption("-preset superfast")

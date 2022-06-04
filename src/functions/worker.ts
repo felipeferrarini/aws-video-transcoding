@@ -6,7 +6,7 @@ import { transcode } from "../services";
 
 const s3 = new S3({ apiVersion: "2006-03-01" });
 
-export const handler: SQSHandler = async (event, _context) => {
+export const handler: SQSHandler = async (event, _context, callback) => {
   try {
     const { file, resolution }: SqsPayload = JSON.parse(event.Records[0].body);
 
@@ -30,6 +30,10 @@ export const handler: SQSHandler = async (event, _context) => {
     });
 
     await transcode(resolution, originStream, destinationStream);
+
+    callback(null, {
+      batchItemFailures: [],
+    });
   } catch (error) {
     console.log(`Error:`, error);
   }

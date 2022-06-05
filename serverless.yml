@@ -23,6 +23,8 @@ constructs:
     batchSize: 1
     worker:
       handler: src/functions/worker.handler
+      memorySize: 1024
+      timeout: 900
       environment:
         S3_BUCKET_DESTINATION: ${file(config.json):S3_BUCKET_DESTINATION}
 

@@ -38,7 +38,6 @@ export const handler: S3Handler = async (event, _context) => {
             file,
             resolution,
           }),
-          MessageGroupId: "transcode",
         })
         .promise();
     })

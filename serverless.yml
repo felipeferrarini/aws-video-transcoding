@@ -19,7 +19,7 @@ constructs:
   jobs:
     type: queue
     maxRetries: 2
-    fifo: true
+    fifo: false
     batchSize: 1
     worker:
       handler: src/functions/worker.handler

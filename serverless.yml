@@ -43,4 +43,3 @@ functions:
           event: s3:ObjectCreated:*
           rules:
             - suffix: .mkv
-          existing: true
